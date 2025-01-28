@@ -3,9 +3,7 @@
 
 using namespace std;
 int main() {
-    string a;
-    a = "F";
-    a += "VD";
-    cout << a;
+    string a = "1";
+    cout << a + "1";
 
 }
