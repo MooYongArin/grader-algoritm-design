@@ -3,7 +3,7 @@
 
 using namespace std;
 void walk(vector<vector<int>> &v, int rstart, int cstart, int rend, int cend, string str){
-// vector<char> path
+    
     if(rstart == rend && cstart == cend) cout << str << endl;
 
     v[rstart][cstart] = 1;
