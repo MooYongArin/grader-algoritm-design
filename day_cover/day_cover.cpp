@@ -1,29 +1,66 @@
 #include <iostream>
 #include <vector>
-#include <set>
+#include <algorithm>
 
 using namespace std;
-void use_student(set<int> &days_needed, int count, int &min_st, vector<set<int>> &students, int available){
-    if(available == 0) if(count < min_st) min_st = count;
-    
+bool isValid(vector<bool> &available){
+    for (bool day : available) {
+        if (!day) return false;
+    }
+    return true;
 }
+void day_cover(int count, int& min_st, vector<vector<int>>& students, vector<bool>& available, int index, int n) {
+    if(count >= min_st) return;
+    if(n == available.size()) {
+        if (isValid(available)) {
+            min_st = min(min_st, count);
+            return;
+        }
+    }
+
+    if (index >= students.size()) return;
+
+    vector<int> days_covered;
+    for (int& day : students[index]) {
+        if (!available[day - 1]) {
+            available[day - 1] = true;
+            days_covered.push_back(day);
+            n += 1;
+        }
+    }
+    if (!days_covered.empty()) {
+        day_cover(count + 1, min_st, students, available, index + 1, n);
+    }
+    for (int &day : days_covered) {
+        available[day - 1] = false;
+        n--;
+    }
+
+    day_cover(count, min_st, students, available, index + 1, n);
+}
+
 int main(){
+    ios_base::sync_with_stdio(false); 
+    cin.tie(0);
     int n, m;
     cin >> n >> m;
-    int k, min_st = 0;
-    vector<set<int>> v(m);
-    set<int> days_needed;
-    for (int i = 1; i <= n; ++i) days_needed.insert(i);
+    int min_st = m;
+
+    vector<vector<int>> v(m);
+    vector<bool> available(n, false);
 
     for (size_t i = 0; i < m; i++) {
+        int k;
         cin >> k;
         while (k--) {
             int a;
             cin >> a;
-            v[i].insert(a);
+            v[i].push_back(a);
         }
     }
-    use_student(days_needed, 0, min_st, v, n);
+
+    sort(v.begin(), v.end());
+    day_cover(0, min_st, v, available, 0, 0);
     cout << min_st << endl;
     
     
