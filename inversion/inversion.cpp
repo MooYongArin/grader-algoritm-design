@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 
+int res = 0;
 int merge(std::vector<int> &v, std::vector<int> &a, int left, int middle, int right){
     int lp = left;
     int rp = middle + 1;
@@ -8,12 +9,17 @@ int merge(std::vector<int> &v, std::vector<int> &a, int left, int middle, int ri
     {
         if (rp > right) { a[i] = v[lp++]; continue; }
         if (lp > middle) { a[i] = v[rp++]; continue; }
-        a[i] = (v[lp] < v[rp]) ? v[lp++] : v[rp++];
+        if(v[lp] <= v[rp]) {
+            a[i] = v[lp++];
+        } else {
+            a[i] = v[rp++];
+            res += middle - lp + 1;
+        }
     }
     
     
     for (int i = left; i<= right;i++) v[i] = a[i];
-    return 0;
+    return res;
 }
 int merge_sort(std::vector<int> &v, std::vector<int> &a, int left, int right){
     if (right > left)
@@ -30,13 +36,11 @@ int merge_sort(std::vector<int> &v, std::vector<int> &a, int left, int right){
 int main(){
     int n;
     std::cin >> n;
-    
     std::vector<int> v(n), k(n);
     for (size_t i = 0; i < n; i++) std::cin >> v[i];
-    
     merge_sort(v,k,0,n-1);
-
-    for (auto &i : v)   std::cout << i << " ";
+    
+    std::cout << res;
     
     return 0;
 }

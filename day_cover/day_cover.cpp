@@ -3,51 +3,39 @@
 #include <algorithm>
 
 using namespace std;
-bool isValid(vector<bool> &available){
-    for (bool day : available) {
-        if (!day) return false;
+int n, m;
+
+void day_cover(int count, int& min_st, vector<vector<int>>& students, vector<int>& available, int index, int tmp) {
+    if(tmp == n) {
+        min_st = min(min_st, count);
+        return;
     }
-    return true;
-}
-void day_cover(int count, int& min_st, vector<vector<int>>& students, vector<bool>& available, int index, int n) {
     if(count >= min_st) return;
-    if(n == available.size()) {
-        if (isValid(available)) {
-            min_st = min(min_st, count);
-            return;
-        }
+    if(index == m) return;
+
+    for (int &day : students[index]) {
+        if (available[day - 1] == 0) tmp++;
+        available[day - 1]++;
+    }
+    
+    day_cover(count + 1, min_st, students, available, index + 1, tmp);
+
+    for (int &day : students[index]) {
+        available[day - 1]--;
+        if (available[day - 1] == 0) tmp--;
     }
 
-    if (index >= students.size()) return;
-
-    vector<int> days_covered;
-    for (int& day : students[index]) {
-        if (!available[day - 1]) {
-            available[day - 1] = true;
-            days_covered.push_back(day);
-            n += 1;
-        }
-    }
-    if (!days_covered.empty()) {
-        day_cover(count + 1, min_st, students, available, index + 1, n);
-    }
-    for (int &day : days_covered) {
-        available[day - 1] = false;
-        n--;
-    }
-
-    day_cover(count, min_st, students, available, index + 1, n);
+    day_cover(count, min_st, students, available, index + 1, tmp);
 }
 
 int main(){
     ios_base::sync_with_stdio(false); 
     cin.tie(0);
-    int n, m;
     cin >> n >> m;
     int min_st = m;
 
     vector<vector<int>> v(m);
-    vector<bool> available(n, false);
+    vector<int> available(n, 0);
 
     for (size_t i = 0; i < m; i++) {
         int k;
@@ -59,7 +47,6 @@ int main(){
         }
     }
 
-    sort(v.begin(), v.end());
     day_cover(0, min_st, v, available, 0, 0);
     cout << min_st << endl;
     
