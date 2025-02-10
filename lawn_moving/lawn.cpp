@@ -12,7 +12,6 @@ int main() {
     
     vector<int> A(n);
     vector<long long> prefix(n + 1, 0); 
-
     for (int i = 0; i < n; i++) {
         cin >> A[i];
         prefix[i + 1] = prefix[i] + A[i]; 
@@ -23,24 +22,22 @@ int main() {
         long long budget;
         cin >> l >> budget;
 
-        int r = n - 1;
-        int best_r = l, save_l = l;
-        long long totalCost = 0;
+        int lo = l, hi = n - 1, best_r = l;
 
-        while (l <= r) {
-            int mid = (r + l) / 2;
+        while (lo <= hi) {
+            int mid = (lo + hi) / 2;
             long long grassSum = prefix[mid + 1] - prefix[l]; 
-            long long cost = grassSum + (mid - l + 1) * k;
+            long long cost = grassSum + (mid - l + 1) * k; 
 
-            if (cost > budget) {
-                r = mid - 1;
+            if (cost <= budget) {
+                best_r = mid; 
+                lo = mid + 1;  
             } else {
-                best_r = mid;
-                l = mid + 1;
-            } 
+                hi = mid - 1; 
+            }
         }
 
-        cout << (prefix[best_r + 1] - prefix[save_l]) << "\n"; 
+        cout << (prefix[best_r + 1] - prefix[l]) << "\n"; 
     }
 
     return 0;
