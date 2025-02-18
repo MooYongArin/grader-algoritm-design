@@ -6,6 +6,8 @@ int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cin >> n >> w >> k;
+    if (n != k) return 0;
+    
     for (size_t i = 1; i <= n; i++) cin >> l[i];
     for (size_t i = 1; i <= n; i++) cin >> r[i];
 
