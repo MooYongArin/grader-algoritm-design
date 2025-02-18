@@ -6,12 +6,17 @@ int main(){
     cin >> n >> m;
 
     for (size_t i = 1; i <= n; i++) cin >> arr[i];
-    int sum = 0, cnt = 0;
-    dp[1] = arr[1];
-    for (size_t i = 1; i <= m; i++)
+    dp[0] = 0;
+    dp[1] = 1;
+    for (size_t i = 2; i <= m; i++)
     {
-        dp[i] = min(dp[i - 1] + 1, dp[i - 5] + 1);
-        sum += arr[i];
+        int minN = 10001;
+        for (size_t j = 1; j <= n; j++)
+        {
+            // cout << arr[j] << " ";
+            if(i >= arr[j]) minN = min(dp[i - arr[j]] + 1, minN);
+        }
+        dp[i] = minN;
     }
     cout << dp[m] << endl;
     
