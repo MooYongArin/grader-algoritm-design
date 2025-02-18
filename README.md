@@ -15,8 +15,3 @@ filename < (PATH_TO_INPUT.TXT)
 ```sh
 billboard < ../../input.txt
 ```
-
-Replace `filename` with the actual executable or script name and specify the correct path to your input file.
-
-can you make in .md format for me to copy?
-
