@@ -1,15 +1,15 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-const int MAGIC_NUM = 32717;
+const int MOD = 32717;
 int recur_mem[1000][1000], c[1001], a[1000], k;
 long long recur(int n){
-    if(n < k) return a[n] % MAGIC_NUM;
+    if(n < k) return a[n] % MOD;
     if(recur_mem[n][k] != 0) return recur_mem[n][k];
 
     int lr = 0;
     for (size_t i = 1; i <= k; ++i) 
-        lr = ((lr % MAGIC_NUM) + ((c[i] % MAGIC_NUM * recur(n - i) % MAGIC_NUM) % MAGIC_NUM) % MAGIC_NUM) % MAGIC_NUM;
+        lr = ((lr % MOD) + ((c[i] % MOD * recur(n - i) % MOD) % MOD) % MOD) % MOD;
 
     recur_mem[n][k] = lr;
     return lr;

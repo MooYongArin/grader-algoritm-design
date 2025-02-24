@@ -2,27 +2,30 @@
 
 using namespace std;
 const int MOD = 100000007;
-long long dp[10001];
-long long bit(int n){
-    if(n == 0) return 1;
-    if(dp[n] != 0) return dp[n];
+long long dp[10001], one[10001], one_zero[10001];
+long long bit(int i){
+    if(dp[i] != 0) return dp[i];
 
-    int next = (bit(n - 1) % MOD + bit(n - 2)% MOD + bit(n - 4)% MOD )% MOD;
-    dp[n] = next;
-    return next;
+    dp[i] = (2 * bit(i - 1)) % MOD;
+    one[i] = (dp[i - 1] % MOD - one_zero[i - 1] % MOD + MOD) % MOD;
+    one_zero[i] = one[i - 1] % MOD;
+
+    dp[i] = (dp[i] % MOD - one_zero[i - 1] % MOD + MOD) % MOD;
+
+    return dp[i];
 }
 int main(){
     long long n;
     cin >> n;
     // 1 2 4 7 12 21 37
-    dp[0] = 1;
+
     dp[1] = 2;
+    one[1] = 1;
+    one_zero[1] = 0;
     dp[2] = 4;
-    dp[3] = 7;
-    // for (long long i = 4; i <= n; i++)
-    // {
-    //     dp[i] = (dp[(i - 1)%10001] % MOD + dp[(i - 2)%10001] % MOD + dp[(i - 4)%10001] % MOD) % MOD;
-    // }
+    one[2] = 2;
+    one_zero[2] = 1;
     cout << bit(n) << endl;
     return 0;
 }
+

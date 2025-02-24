@@ -1,25 +1,34 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-int n, m ,K, dp[31][31][31];
-int main(){
-    cin >> n >> m >> K;
 
-    dp[1][0][0] = 1;
-    dp[1][1][0] = 1;
-    for (int i = 1; i <= n; i++)
-    {
-        for (int j = 1; j <= m; j++)
-        {
-        for (int k = 0; k <= K; k++)
-            {
-                if(k <= i) dp[i][j][k] = 0;
-                else if (j == 1) dp[i][j][k] = 1;
-                else dp[i][j][k] = (2 * dp[i - 1][j][k]) ;
-            }
-        }
+int n, m, k;
+int dp[31][31][31]; // dp[length][consecutive][color][changes]
+
+int countBarcodes(int length, int consecutive, int changes) {
+    if (length == n) {
+        return (changes == k) ? 1 : 0;
     }
-    cout << dp[n][m][K] << endl;
-    
+    if (dp[length][consecutive][changes] != -1) {
+        return dp[length][consecutive][changes];
+    }
+
+    int result = 0;
+    if (consecutive < m) {
+        // gen same number
+        result += countBarcodes(length + 1, consecutive + 1, changes);
+    }
+    // gen different number
+    result += countBarcodes(length + 1, 1, changes + 1);
+
+    dp[length][consecutive][changes] = result;
+
+    return dp[length][consecutive][changes];
+}
+
+int main() {
+    cin >> n >> m >> k;
+    memset(dp, -1, sizeof(dp));
+    cout << countBarcodes(1, 1, 0) << endl;
     return 0;
 }

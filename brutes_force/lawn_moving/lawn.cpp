@@ -16,12 +16,17 @@ int main() {
         cin >> A[i];
         prefix[i + 1] = prefix[i] + A[i]; 
     }
-
+    
     while (m--) {
         int l;
         long long budget;
         cin >> l >> budget;
-
+        if (A[l] + k > budget)
+        {
+            cout << 0 << endl;
+            continue;
+        }
+        
         int lo = l, hi = n - 1, best_r = l;
 
         while (lo <= hi) {

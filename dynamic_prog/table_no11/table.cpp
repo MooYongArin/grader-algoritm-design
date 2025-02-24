@@ -5,9 +5,9 @@ const int MOD = 100000007;
 long long dp[1000001], n;
 int main(){
     cin >> n;
+    dp[1] = 3;
     dp[2] = 7;
-    dp[3] = 17;
-    for (size_t i = 4; i <= n; i++)
+    for (size_t i = 3; i <= n; i++)
     {
         dp[i] = (2 * (dp[i - 1] % MOD) + (dp[i - 2] % MOD)) % MOD;
     }
