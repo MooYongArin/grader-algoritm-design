@@ -1,30 +1,37 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
-int main(){
+int main() {
     int n, w;
     cin >> n >> w;
 
     vector<int> v(n);
-    for (size_t i = 0; i < n; i++) cin >> v[i];
+    for (int i = 0; i < n; i++) cin >> v[i];
 
-    int max_max_sum = v[0];
-    int x, max_sum, sum;
-    for (size_t i = 0; i < n; i++)
-    {
-        max_sum = v[i];
-        sum = v[i];
-        for (size_t j = 1; j < w; j++)
-        {
-            if(i + j >= n) break;
-            x = v[i + j];
-            if(sum <= 0) sum = x;
-            else sum += x;
-            max_sum = max(max_sum, sum);
-        }
-        max_max_sum = max(max_max_sum, max_sum);
+    int max_sum = INT_MIN;
+    int current_sum = 0;
+
+    // Calculate the sum of the first window
+    for (int i = 0; i < w && i < n; i++) {
+        current_sum += v[i];
     }
-    cout << max_max_sum << endl;
+    max_sum = current_sum;
+
+    // Slide the window across the array
+    for (int i = w; i < n; i++) {
+        current_sum += v[i] - v[i - w];
+        max_sum = max(max_sum, current_sum);
+    }
+
+    // Check for subarrays of length less than w
+    for (int i = 1; i < w && i < n; i++) {
+        current_sum = 0;
+        for (int j = 0; j < i; j++) {
+            current_sum += v[j];
+        }
+        max_sum = max(max_sum, current_sum);
+    }
+
+    cout << max_sum << endl;
     return 0;
 }
