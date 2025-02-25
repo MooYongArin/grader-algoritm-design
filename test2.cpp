@@ -21,6 +21,7 @@ int recur(int i, int curr_m, int curr_k, int m, int k, int n) {
     if (curr_m < m && curr_k < k) {
         return dp[i][curr_m][curr_k] = recur(i+1, 1, curr_k+1, m, k, n) + recur(i+1, curr_m+1, curr_k, m, k, n);
     } 
+    return 0;
 }
 
 int main() {
