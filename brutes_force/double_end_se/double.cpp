@@ -2,23 +2,22 @@
 using namespace std;
 
 int main(){
-    int n; cin >> n;
-    unordered_map<int, int> um;
+    int n, x; 
+    cin >> n;
 
-    int sum = 0, mx = -2e9;
-    for(int i=0;i<n;++i){
-        int x; cin >> x;
-        if(um.find(x) != um.end()){
-            mx = max(mx, sum+x-um[x]);
-        }else{
-            um[x] = sum;
+    int maxN = -1e9;
+    unordered_map<int, int> dp;
+    for(int i = 0; i < n; ++i){
+        cin >> x;
+        if (dp.find(x) != dp.end()) {
+            dp[x] = max(dp[x] + x, x);
+        } else {
+            dp[x] = x;
         }
-        um[x] = min(um[x], sum);
-        sum += x;
-        mx = max(mx, x);
+        maxN = max(maxN, dp[x]);
     }
 
-    cout << mx;
+    cout << maxN;
     
 }
 
