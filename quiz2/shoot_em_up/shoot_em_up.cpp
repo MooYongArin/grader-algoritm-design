@@ -3,8 +3,7 @@
 using namespace std;
 int n, w, b;
 void recur(int i, int height, string st){
-    if(i == n) cout << st << '\n';
-    if(i > n) return;
+    if(i == n) { cout << st << '\n'; return;}
     if(height - 1 >= 1) recur(i + 1, height - 1, st + "D");
     recur(i + 1, height, st + "S");
     if(height + 1 <= w) recur(i + 1, height + 1, st + "U");
