@@ -3,7 +3,7 @@
 This repository contains the source code for a grader used in algorithm design problems.
 
 ## Compiling the Code (C++)
-To compile the grader using g++ (for C++), run the following command:
+To compile the code using g++ (for C++), run the following command:
 
 ```sh
 g++ -o filename filename.cpp
