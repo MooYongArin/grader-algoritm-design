@@ -18,12 +18,13 @@ int main(){
 
     double sum_price = 0, available_weight = W;
     for (int i = 1; i <= n; i++) {
-        if(gd[i].second.second <= available_weight) {
-            available_weight -= gd[i].second.second;
-            sum_price += gd[i].second.first;
+        double price = gd[i].second.first, weight = gd[i].second.second;
+        if(weight <= available_weight) {
+            available_weight -= weight;
+            sum_price += price;
         } else {
-            double fraction = available_weight / gd[i].second.second;
-            sum_price += (fraction * gd[i].second.first);
+            double fraction = available_weight / weight;
+            sum_price += (fraction * price);
             break;
         }
     }
