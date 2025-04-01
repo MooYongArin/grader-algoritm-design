@@ -22,22 +22,22 @@ int main(){
             pair<int, int> p = q.front();
             q.pop();
             int a = p.first, b = p.second;
-            if(arr[a + 1][b] == 0 && a + 1 < r) {
+            if(a + 1 < r && arr[a + 1][b] == 0) {
                 next_day_q.push({a + 1, b});
                 arr[a + 1][b] = 1;
                 infected++;
             }
-            if(arr[a][b + 1] == 0 && b + 1 < c) {
+            if(b + 1 < c && arr[a][b + 1] == 0) {
                 next_day_q.push({a, b + 1});
                 arr[a][b + 1] = 1;
                 infected++;
             }
-            if(arr[a - 1][b] == 0 && a - 1 >= 0) {
+            if(a - 1 >= 0 && arr[a - 1][b] == 0) {
                 next_day_q.push({a - 1, b});
                 arr[a - 1][b] = 1;
                 infected++;
             }
-            if(arr[a][b - 1] == 0 && b - 1 >= 0) {
+            if(b - 1 >= 0 && arr[a][b - 1] == 0) {
                 next_day_q.push({a, b - 1});
                 arr[a][b - 1] = 1;
                 infected++;
