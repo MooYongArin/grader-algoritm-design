@@ -1,43 +1,36 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-int main(){
+// copy of hof
+int v[1010],w[1010],s;
+int dist(int a,int b) {
+	int t = abs(w[a-1]-w[b-1]);
+	return min(t,s-t);
+}
+int main()
+{
     int n, m;
     cin >> n >> m;
-    int c[m], t[m], suf_t[m], a, b;
-    for (int i = 0; i < m; i++) cin >> c[i];
-    for (int i = 0; i < m; i++) {
-        cin >> t[i];
-        if(i != 0) suf_t[i] = suf_t[i - 1] + t[i];
-        else suf_t[i] = t[i];
+    for (int i = 0; i < m; i++)
+        cin >> v[i];
+    v[m] = v[0];
+    for (int i = 0; i < m; i++)
+    {
+        cin >> w[i];
+        s += w[i];
     }
-
-    for (int i = 0; i < n; i++) {
+    for (int i = 1; i < m; i++)
+        w[i] += w[i - 1];
+    for (int i = 0; i < n; i++)
+    {
+        int a, b, ans = 0, k = v[0];
         cin >> a >> b;
-        int sum_left = 0, sum_right = 0;
-        for (int i = 0; i < m; i++) {
-            if(a <= max(c[i], c[i + 1]) && a >= min(c[i], c[i + 1])){
-                if(c[i] == 0) sum_right += suf_t[c[i + 1] - 1] - t[a];
-                else sum_right += suf_t[c[i + 1] - 1] - suf_t[c[i] - 1] - t[a];
-            } else {
-                if(c[i] == 0) sum_right += suf_t[c[i + 1] - 1];
-                else sum_right += suf_t[c[i + 1] - 1] - suf_t[c[i] - 1];
-            }
-            cout << sum_right << " ";
+        for (int j = 0; j <= m; j++)
+        {
+            ans += min(dist(k, v[j]), min(dist(k, a) + dist(b, v[j]), dist(k, b) + dist(a, v[j])));
+            k = v[j];
         }
-
-        for (int i = 0; i < m; i++) {
-            if(b <= max(c[i], c[i + 1]) && b >= min(c[i], c[i + 1])){
-                if(c[i] == 0) sum_left += suf_t[c[i + 1] - 1] - t[b];
-                else sum_left += suf_t[c[i + 1] - 1] - suf_t[c[i] - 1] - t[b];
-            } else {
-                if(c[i] == 0) sum_left += suf_t[c[i + 1] - 1];
-                else sum_left += suf_t[c[i + 1] - 1] - suf_t[c[i] - 1];
-            }
-            cout << sum_left << " ";
-        }
-
-        // cout << min(sum_left, sum_right) << '\n';
+        cout << ans << "\n";
     }
 
     return 0;
