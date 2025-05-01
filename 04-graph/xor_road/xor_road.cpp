@@ -7,27 +7,29 @@ int main(){
     int arr[n];
     for (int i = 0; i < n; i++) cin >> arr[i];
     
-    vector<int> dist(n, INT_MIN);
     vector<int> visited(n, false);
-    unsigned long long cost = 0;
+    unsigned long long maxCost = 0;
 
-    dist[0] = 0;
-    for (int i = 0; i < n; i++)
-    {
-        int u = -1;
-        for (int j = 0; j < n; j++)
-        {
-            if(!visited[j] && (u == -1 || dist[u] < dist[j])) 
-                u = j;
-        }
+    priority_queue<pair<int, int>> pq;
+    pq.push({0, 0});
+    while (!pq.empty()) {
+        pair<int, int> p = pq.top();
+        int weight = p.first;
+        int u = p.second;
+        pq.pop();
+
+        if (visited[u]) continue;
+
         visited[u] = true;
-        cost += dist[u];
-        
-        for (int j = 0; j < n; j++)
-        {
-            dist[j] = max(dist[j], arr[u] ^ arr[j]);
+        maxCost += weight;
+
+        for (int v = 0; v < n; v++) {
+            if (!visited[v]) {
+                int edgeWeight = arr[u] ^ arr[v];
+                pq.push({edgeWeight, v});
+            }
         }
     }
-    cout << cost << endl;
+    cout << maxCost << endl;
     return 0;
 }

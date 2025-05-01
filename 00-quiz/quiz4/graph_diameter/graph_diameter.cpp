@@ -4,11 +4,11 @@ using namespace std;
 int main(){
     int n, m;
     cin >> n >> m;
-    int w[n][n], dist[n][n];
+    int  dist[n][n];
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            if (i == j) w[i][j] = 0;
-            else w[i][j] = INT_MAX;
+            if (i == j) dist[i][j] = 0;
+            else dist[i][j] = INT_MAX;
         }
     }
     for (int i = 0; i < m; i++)
@@ -16,16 +16,7 @@ int main(){
         int a, b, c;
         cin >> a >> b >> c;
         --a; --b;
-        w[a][b] = c;
-    }
-    
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            dist[i][j] = w[i][j];
-        }
-        
+        dist[a][b] = c;
     }
     for (int k = 0; k < n; k++)
     {
@@ -37,7 +28,6 @@ int main(){
             }
         }
     }
-
     int max_path = INT_MIN;
     for (int i = 0; i < n; i++)
     {
